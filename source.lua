@@ -677,19 +677,23 @@ function Util:Init()
 	CodeBox.Text = "-- Syn Killer Executor --"
 	
 	
-	if WebSocket or syn and syn.websocket or syn and syn.WebSocket then
-		local WB = WebSocket or syn.websocket or syn.WebSocket
-		local Socket = false
-		repeat local Socket = pcall(function()
-			local socket = WB.connect("ws://localhost:8755")
-			socket.OnMessage:Connect(function(msg)
-				CodeBox.Text = msg
-			end)
-		end) until Socket ~= false
-		
-		
-		Util.Gui:AddTab("Executor")
-	end
+	task.spawn(function()
+
+		if WebSocket or syn and syn.websocket or syn and syn.WebSocket then
+			local WB = WebSocket or syn.websocket or syn.WebSocket
+			local Socket = false
+			repeat task.wait(1) local Socket = pcall(function()
+				local socket = WB.connect("ws://localhost:8755")
+				socket.OnMessage:Connect(function(msg)
+					CodeBox.Text = msg
+				end)
+			end) until Socket ~= false
+			
+			
+			Util.Gui:AddTab("Executor")
+		end
+
+	end)
 	
 	Util.Gui:AddTab("Global Env Viewer",GlobalViewerFrame)
 	
