@@ -680,10 +680,13 @@ function Util:Init()
 	if WebSocket or syn and syn.websocket or syn and syn.WebSocket then
 		local WB = WebSocket or syn.websocket or syn.WebSocket
 		local Socket = false
-		repeat local e,Socket = pcall(function()return WB.connect("ws://localhost:8755")end) until Socket ~= false
-		Socket.OnMessage:Connect(function(msg)
-			CodeBox.Text = msg
-		end)
+		repeat local Socket = pcall(function()
+			local socket = WB.connect("ws://localhost:8755")
+			socket.OnMessage:Connect(function(msg)
+				CodeBox.Text = msg
+			end)
+		end) until Socket ~= false
+		
 		
 		Util.Gui:AddTab("Executor")
 	end
