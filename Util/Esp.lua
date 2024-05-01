@@ -12,15 +12,13 @@ function CreateESP(Target:BasePart,Settings)
 	
 	local EspBox = Instance.new("BoxHandleAdornment")
 	
-	EspBox.Parent = gui
-	EspBox.Adornee = Target
 	
 	
 
 	
 	game:GetService("RunService").RenderStepped:Connect(function()
 		local Calculation,OnScreen = Camera:WorldToViewportPoint(Target.Position)
-		Line.From = Vector2.new(Mouse.X+math.abs(gui.AbsolutePosition.X),Mouse.Y+math.abs(gui.AbsolutePosition.Y))
+		Line.From = Vector2.new(0,0)
 		
 		if Calculation.Z < -0.1 then
 			Line.To = Vector2.new(-Calculation.X,-Calculation.Y)
